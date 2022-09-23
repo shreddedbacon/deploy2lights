@@ -49,7 +49,7 @@ func (ls *LED) Startup() {
 	ls.wipe(0x000000)
 }
 
-func (ls *LED) wipe(color uint32) error {
+func (ls *LED) Wipe(color uint32) error {
 	for i := 0; i < len(ls.WS.Leds(0)); i++ {
 		ls.WS.Leds(0)[i] = color
 		if err := ls.WS.Render(); err != nil {
