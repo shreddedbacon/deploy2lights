@@ -19,7 +19,7 @@ func main() {
 	ls.Startup()
 
 	fmt.Println("opening gpio")
-	err := rpio.Open()
+	err = rpio.Open()
 	if err != nil {
 		panic(fmt.Sprint("unable to open gpio", err.Error()))
 	}
