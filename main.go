@@ -11,7 +11,7 @@ import (
 
 func main() {
 
-	ls, err := lights.Setup(ledBrightness, ledCount)
+	ls, err := lights.Setup(255, 6)
 	if err != nil {
 		log.Fatal(err)
 	}
