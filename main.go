@@ -18,10 +18,15 @@ func main() {
 
 	pin := rpio.Pin(17)
 	pin.Input()
+	pin.PullUp()
+	pin.Detect(rpio.FallEdge)
+
+	defer pin.Detect(rpio.NoEdge)
 
 	for {
-		res := pin.Read()
-		fmt.Println(res)
-		time.Sleep(time.Second / 5)
+		if pin.EdgeDetected() {
+			fmt.Println("Button")
+		}
+		time.Sleep(time.Second)
 	}
 }
