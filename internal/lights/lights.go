@@ -45,8 +45,8 @@ func Setup(brightness, ledCount int) (*LED, error) {
 
 func (ls *LED) Startup() {
 	// startup animation, once this is complete, builds can start
-	ls.wipe(0x0690BA)
-	ls.wipe(0x000000)
+	ls.Wipe(0x0690BA)
+	ls.Wipe(0x000000)
 }
 
 func (ls *LED) Wipe(color uint32) error {
