@@ -46,7 +46,6 @@ func Setup(brightness, ledCount int) (*LED, error) {
 func (ls *LED) Startup() {
 	// startup animation, once this is complete, builds can start
 	ls.Wipe(0x0690BA)
-	ls.Wipe(0x000000)
 }
 
 func (ls *LED) Wipe(color uint32) error {
@@ -55,7 +54,7 @@ func (ls *LED) Wipe(color uint32) error {
 		if err := ls.WS.Render(); err != nil {
 			return err
 		}
-		time.Sleep(10 * time.Millisecond)
+		time.Sleep(100 * time.Millisecond)
 	}
 	return nil
 }

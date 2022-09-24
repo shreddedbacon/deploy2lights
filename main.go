@@ -37,9 +37,10 @@ func main() {
 		if pin.EdgeDetected() {
 			fmt.Println("Button")
 			ls.Wipe(0x00FF00)
-			ls.Wipe(0x00FF88)
+			ls.Wipe(0x00FFFF)
 			ls.Wipe(0x00FF00)
-			ls.Wipe(0x00FF88)
+			ls.Wipe(0x00FFFF)
+			ls.Wipe(0x0690BA)
 		}
 		time.Sleep(time.Second)
 	}
