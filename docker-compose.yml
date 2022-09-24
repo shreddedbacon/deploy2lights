@@ -1,0 +1,6 @@
+version: "2"
+services:
+  logs2lights:
+    image: uselagoon/deploy2lights
+    privileged: true
+    restart: always
