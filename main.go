@@ -41,10 +41,14 @@ func main() {
 	for {
 		if pin.EdgeDetected() {
 			fmt.Println("button pressed")
+			ls.Wipe(0xFF0000)
 			ls.Wipe(0x00FF00)
+			ls.Wipe(0x0000FF)
+			ls.Wipe(0xFFFF00)
+			ls.Wipe(0xFF00FF)
 			ls.Wipe(0x00FFFF)
-			ls.Wipe(0x00FF00)
-			ls.Wipe(0x00FFFF)
+			ls.Wipe(0xEB348F)
+			ls.Wipe(0x0690BA)
 			ls.Wipe(0x0690BA)
 			token, err := sshtoken.GetToken("/home/pi", "lagoon-ssh.apps.shreddedbacon.com", "32222")
 			if err != nil {
@@ -81,8 +85,8 @@ func main() {
 			fmt.Println(deployment)
 			ls.Wipe(0x00FF00)
 			ls.Wipe(0x00FFFF)
-			ls.Wipe(0xEB8F34)
-			ls.Wipe(0xFF0000)
+			ls.Wipe(0x00FF00)
+			ls.Wipe(0x00FFFF)
 			ls.Wipe(0x0690BA)
 		}
 		time.Sleep(time.Second)
