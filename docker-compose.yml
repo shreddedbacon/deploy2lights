@@ -4,3 +4,5 @@ services:
     image: uselagoon/deploy2lights
     privileged: true
     restart: always
+    volumes:
+      - /home/pi/.ssh/id_rsa:/home/pi/.ssh/id_rsa

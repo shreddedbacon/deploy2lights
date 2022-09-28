@@ -41,13 +41,13 @@ func main() {
 	for {
 		if pin.EdgeDetected() {
 			fmt.Println("Button")
-			ls.Wipe(0x00FF00)
-			ls.Wipe(0x00FFFF)
-			ls.Wipe(0x00FF00)
-			ls.Wipe(0x00FFFF)
-			ls.Wipe(0x0690BA)
 			token, err := sshtoken.GetToken("/home/pi", "lagoon-ssh.apps.shreddedbacon.com", "32222")
 			if err != nil {
+				ls.Wipe(0xFF0000)
+				ls.Wipe(0xEB8F34)
+				ls.Wipe(0xFF0000)
+				ls.Wipe(0xEB8F34)
+				ls.Wipe(0x0690BA)
 				fmt.Println(err)
 				time.Sleep(time.Second)
 				continue
@@ -64,11 +64,21 @@ func main() {
 			l := lclient.New(lagoonAPI, token, "deploy2lights", false)
 			deployment, err := lagoon.DeployLatest(ctx, deploy, l)
 			if err != nil {
+				ls.Wipe(0xFF0000)
+				ls.Wipe(0xEB8F34)
+				ls.Wipe(0xFF0000)
+				ls.Wipe(0xEB8F34)
+				ls.Wipe(0x0690BA)
 				fmt.Println(err)
 				time.Sleep(time.Second)
 				continue
 			}
 			fmt.Println(deployment)
+			ls.Wipe(0x00FF00)
+			ls.Wipe(0x00FFFF)
+			ls.Wipe(0x00FF00)
+			ls.Wipe(0x00FFFF)
+			ls.Wipe(0x0690BA)
 		}
 		time.Sleep(time.Second)
 	}
