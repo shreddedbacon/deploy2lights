@@ -36,7 +36,7 @@ func HexToColor(hex string) uint32 {
 		return 0
 	}
 
-	return rgbToColor(uint8(values>>16), uint8((values>>8)&0xFF), uint8(values&0xFF))
+	return rgbToColor(uint8(values>>16), uint8(values&0xFF), uint8((values>>8)&0xFF))
 
 }
 
