@@ -56,14 +56,6 @@ func publicKey(path string, skipAgent bool) (ssh.AuthMethod, func() error) {
 }
 
 func GetToken(userPath, sshHost, sshPort string) (string, error) {
-	out, err := retrieveTokenViaSSH(userPath, sshHost, sshPort)
-	if err != nil {
-		return "", err
-	}
-	return out, nil
-}
-
-func retrieveTokenViaSSH(userPath, sshHost, sshPort string) (string, error) {
 	skipAgent := false
 	privateKey := fmt.Sprintf("%s/.ssh/id_rsa", userPath)
 	authMethod, closeSSHAgent := publicKey(privateKey, skipAgent)

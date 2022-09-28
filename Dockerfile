@@ -1,4 +1,4 @@
-FROM arm32v6/golang:1.14-alpine3.11 as builder
+FROM arm32v7/golang:1.17-alpine as builder
 
 # install the requirements for using the rpi_ws281x library
 RUN apk add git gcc linux-headers scons libc-dev
