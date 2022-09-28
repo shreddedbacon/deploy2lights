@@ -5,6 +5,6 @@ services:
     privileged: true
     restart: always
     environment:
-      - LED_STRIP_TYPE=BGR
+      - LED_STRIP_TYPE=BRG
     volumes:
       - /home/pi/.ssh/id_rsa:/home/pi/.ssh/id_rsa
