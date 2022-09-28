@@ -73,7 +73,7 @@ func Setup(brightness, ledCount int, stripType string) (*LED, error) {
 
 func (ls *LED) Startup() {
 	// startup animation, once this is complete, builds can start
-	ls.Wipe(lights.HexToColor("06BA90")) //teal
+	ls.Wipe(HexToColor("06BA90")) //teal
 }
 
 func (ls *LED) Wipe(color uint32) error {
@@ -89,7 +89,7 @@ func (ls *LED) Wipe(color uint32) error {
 
 func (ls *LED) Display(ledValues *map[string]Flare) error {
 	for i := 0; i < len(ls.WS.Leds(0)); i++ {
-		ls.WS.Leds(0)[i] = lights.HexToColor("000000")
+		ls.WS.Leds(0)[i] = HexToColor("000000")
 	}
 
 	for k, v := range *ledValues {
