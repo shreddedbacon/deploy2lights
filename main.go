@@ -81,8 +81,8 @@ func main() {
 			fmt.Println(deployment)
 			ls.Wipe(0x00FF00)
 			ls.Wipe(0x00FFFF)
-			ls.Wipe(0x00FF00)
-			ls.Wipe(0x00FFFF)
+			ls.Wipe(0xEB8F34)
+			ls.Wipe(0xFF0000)
 			ls.Wipe(0x0690BA)
 		}
 		time.Sleep(time.Second)
