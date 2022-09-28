@@ -41,15 +41,15 @@ func main() {
 	for {
 		if pin.EdgeDetected() {
 			fmt.Println("button pressed")
-			ls.Wipe(0xFF0000)
-			ls.Wipe(0x00FF00)
-			ls.Wipe(0x0000FF)
-			ls.Wipe(0xFFFF00)
-			ls.Wipe(0xFF00FF)
-			ls.Wipe(0x00FFFF)
-			ls.Wipe(0xEB348F)
-			ls.Wipe(0x0690BA)
-			ls.Wipe(0x0690BA)
+			ls.Wipe(lights.HexToColor("FF0000")) //red
+			ls.Wipe(lights.HexToColor("00FF00")) //green
+			ls.Wipe(lights.HexToColor("0000FF")) //blue
+			ls.Wipe(lights.HexToColor("FF00FF")) //purple
+			ls.Wipe(lights.HexToColor("FFFF00")) //yellow
+			ls.Wipe(lights.HexToColor("00FFFF")) //cyan
+			ls.Wipe(lights.HexToColor("EB8F34")) //orange
+			ls.Wipe(lights.HexToColor("06BA90")) //teal
+			ls.Wipe(lights.HexToColor("06BA90")) //teal
 			token, err := sshtoken.GetToken("/home/pi", "lagoon-ssh.apps.shreddedbacon.com", "32222")
 			if err != nil {
 				ls.Wipe(0xFF0000)

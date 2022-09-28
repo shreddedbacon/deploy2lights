@@ -1,6 +1,7 @@
 package lights
 
 import (
+	"strconv"
 	"time"
 
 	ws2811 "github.com/rpi-ws281x/rpi-ws281x-go"
@@ -22,6 +23,21 @@ type wsEngine interface {
 
 type LED struct {
 	WS wsEngine
+}
+
+func rgbToColor(r uint8, g uint8, b uint8) uint32 {
+	return uint32(uint32(r)<<16 | uint32(g)<<8 | uint32(b))
+}
+
+func HexToColor(hex string) uint32 {
+	values, err := strconv.ParseUint(string(hex), 16, 32)
+
+	if err != nil {
+		return 0
+	}
+
+	return rgbToColor(uint8(values>>16), uint8((values>>8)&0xFF), uint8(values&0xFF))
+
 }
 
 func Setup(brightness, ledCount int) (*LED, error) {
