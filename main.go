@@ -1,16 +1,21 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"time"
 
 	"github.com/stianeikeland/go-rpio"
+	"github.com/uselagoon/deploy2lights/internal/lagoon"
+	lclient "github.com/uselagoon/deploy2lights/internal/lagoon/client"
 	"github.com/uselagoon/deploy2lights/internal/lights"
+	"github.com/uselagoon/deploy2lights/internal/schema"
+	"github.com/uselagoon/deploy2lights/internal/sshtoken"
 )
 
 func main() {
-
+	lagoonAPI := "https://lagoon-api.apps.shreddedbacon.com/graphql"
 	ls, err := lights.Setup(255, 6)
 	if err != nil {
 		log.Fatal(err)
@@ -41,6 +46,29 @@ func main() {
 			ls.Wipe(0x00FF00)
 			ls.Wipe(0x00FFFF)
 			ls.Wipe(0x0690BA)
+			token, err := sshtoken.GetToken("/home/pi", "lagoon-ssh.apps.shreddedbacon.com", "32222")
+			if err != nil {
+				fmt.Println(err)
+				time.Sleep(time.Second)
+				continue
+			}
+			ctx := context.Background()
+			deploy := &schema.DeployEnvironmentLatestInput{
+				Environment: schema.EnvironmentInput{
+					Name: "master",
+					Project: schema.ProjectInput{
+						Name: "ben",
+					},
+				},
+			}
+			l := lclient.New(lagoonAPI, token, "deploy2lights", false)
+			deployment, err := lagoon.DeployLatest(ctx, deploy, l)
+			if err != nil {
+				fmt.Println(err)
+				time.Sleep(time.Second)
+				continue
+			}
+			fmt.Println(deployment)
 		}
 		time.Sleep(time.Second)
 	}
