@@ -4,5 +4,7 @@ services:
     image: uselagoon/deploy2lights
     privileged: true
     restart: always
+    environment:
+      - LED_STRIP_TYPE=BGR
     volumes:
       - /home/pi/.ssh/id_rsa:/home/pi/.ssh/id_rsa

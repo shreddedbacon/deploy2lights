@@ -2,8 +2,11 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/google/uuid"
@@ -16,14 +19,36 @@ import (
 )
 
 func main() {
+	var ledCount int
+	var ledBrightness int
+	var lagoonAPI, stripType, projectName, environmentName string
+
+	flag.StringVar(&lagoonAPI, "lagoon-api", "https://lagoon-api.apps.shreddedbacon.com/graphql",
+		"The lagoon API url.")
+	flag.StringVar(&stripType, "led-strip-type", "RGB",
+		"The color order of the LED strip.")
+	flag.StringVar(&projectName, "project-name", "ben",
+		"The lagoon project name.")
+	flag.StringVar(&environmentName, "environment-name", "master",
+		"The lagoon environment name.")
+
+	flag.IntVar(&ledCount, "led-count", 6,
+		"The total number of LEDs.")
+	flag.IntVar(&ledBrightness, "led-brightness", 255,
+		"The brightness max of the leds.")
+	flag.Parse()
+
+	stripType = getEnv("LED_STRIP_TYPE", stripType)
+
+	ledCount = getEnvInt("LED_COUNT", ledCount)
+	ledBrightness = getEnvInt("LED_BRIGHTNESS", ledBrightness)
+
 	lagoonAPI := "https://lagoon-api.apps.shreddedbacon.com/graphql"
-	brightness := 255
-	ledCount := 6
 	stripType := "GBR"
 	projectName := "ben"
 	environmentName := "master"
 
-	ls, err := lights.Setup(brightness, ledCount, stripType)
+	ls, err := lights.Setup(ledBrightness, ledCount, stripType)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -105,4 +130,21 @@ func main() {
 		}
 		time.Sleep(time.Second)
 	}
+}
+
+func getEnv(key, fallback string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return fallback
+}
+
+func getEnvInt(key string, fallback int) int {
+	if value, ok := os.LookupEnv(key); ok {
+		valueInt, e := strconv.Atoi(value)
+		if e == nil {
+			return valueInt
+		}
+	}
+	return fallback
 }
