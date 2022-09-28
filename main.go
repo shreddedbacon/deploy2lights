@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/stianeikeland/go-rpio"
 	"github.com/uselagoon/deploy2lights/internal/lagoon"
 	lclient "github.com/uselagoon/deploy2lights/internal/lagoon/client"
@@ -62,6 +63,7 @@ func main() {
 				ls.Wipe(lights.HexToColor("06BA90")) //teal
 				continue
 			}
+			id := uuid.New()
 			ctx := context.Background()
 			deploy := &schema.DeployEnvironmentLatestInput{
 				Environment: schema.EnvironmentInput{
@@ -70,6 +72,7 @@ func main() {
 						Name: "ben",
 					},
 				},
+				BulkID: id.String(),
 			}
 			l := lclient.New(lagoonAPI, token, "deploy2lights", false)
 			deployment, err := lagoon.DeployLatest(ctx, deploy, l)

@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/google/uuid v1.3.0
 	github.com/machinebox/graphql v0.2.2
 	github.com/rpi-ws281x/rpi-ws281x-go v1.0.8
 	github.com/stianeikeland/go-rpio v4.2.0+incompatible

@@ -36,7 +36,7 @@ func HexToColor(hex string) uint32 {
 		return 0
 	}
 
-	return rgbToColor(uint8(values>>16), uint8(values&0xFF), uint8((values>>8)&0xFF))
+	return rgbToColor(uint8(values>>16), uint8((values>>8)&0xFF), uint8(values&0xFF))
 
 }
 
@@ -44,6 +44,7 @@ func Setup(brightness, ledCount int) (*LED, error) {
 	opt := ws2811.DefaultOptions
 	opt.Channels[0].Brightness = brightness
 	opt.Channels[0].LedCount = ledCount
+	opt.Channels[0].StripeType = ws2811.WS2811StripRBG
 
 	dev, err := ws2811.MakeWS2811(&opt)
 	if err != nil {
