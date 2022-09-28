@@ -43,11 +43,6 @@ func main() {
 	ledCount = getEnvInt("LED_COUNT", ledCount)
 	ledBrightness = getEnvInt("LED_BRIGHTNESS", ledBrightness)
 
-	lagoonAPI := "https://lagoon-api.apps.shreddedbacon.com/graphql"
-	stripType := "GBR"
-	projectName := "ben"
-	environmentName := "master"
-
 	ls, err := lights.Setup(ledBrightness, ledCount, stripType)
 	if err != nil {
 		log.Fatal(err)
