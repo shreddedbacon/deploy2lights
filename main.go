@@ -19,7 +19,7 @@ func main() {
 	lagoonAPI := "https://lagoon-api.apps.shreddedbacon.com/graphql"
 	brightness := 255
 	ledCount := 6
-	stripType := "RBG"
+	stripType := "RGB"
 	projectName := "ben"
 	environmentName := "master"
 
