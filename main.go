@@ -17,7 +17,13 @@ import (
 
 func main() {
 	lagoonAPI := "https://lagoon-api.apps.shreddedbacon.com/graphql"
-	ls, err := lights.Setup(255, 6)
+	brightness := 255
+	ledCount := 6
+	stripType := "RBG"
+	projectName := "ben"
+	environmentName := "master"
+
+	ls, err := lights.Setup(brightness, ledCount, stripType)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -67,9 +73,9 @@ func main() {
 			ctx := context.Background()
 			deploy := &schema.DeployEnvironmentLatestInput{
 				Environment: schema.EnvironmentInput{
-					Name: "master",
+					Name: environmentName,
 					Project: schema.ProjectInput{
-						Name: "ben",
+						Name: projectName,
 					},
 				},
 				BulkID: id.String(),
@@ -88,7 +94,7 @@ func main() {
 				ls.Wipe(lights.HexToColor("06BA90")) //teal
 				continue
 			}
-			fmt.Println(deployment)
+			fmt.Println(deployment, id.String())
 			ls.Wipe(lights.HexToColor("00FF00")) //green
 			ls.Wipe(lights.HexToColor("7BA832")) //lighter green
 			ls.Wipe(lights.HexToColor("48D99F")) //teal green

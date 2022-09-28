@@ -31,20 +31,31 @@ func rgbToColor(r uint8, g uint8, b uint8) uint32 {
 
 func HexToColor(hex string) uint32 {
 	values, err := strconv.ParseUint(string(hex), 16, 32)
-
 	if err != nil {
 		return 0
 	}
-
 	return rgbToColor(uint8(values>>16), uint8((values>>8)&0xFF), uint8(values&0xFF))
 
 }
 
-func Setup(brightness, ledCount int) (*LED, error) {
+func Setup(brightness, ledCount int, stripType string) (*LED, error) {
 	opt := ws2811.DefaultOptions
 	opt.Channels[0].Brightness = brightness
 	opt.Channels[0].LedCount = ledCount
-	opt.Channels[0].StripeType = ws2811.WS2811StripRBG
+	switch stripType {
+	case "RBG":
+		opt.Channels[0].StripeType = ws2811.WS2811StripRBG
+	case "GRB":
+		opt.Channels[0].StripeType = ws2811.WS2811StripGRB
+	case "GBR":
+		opt.Channels[0].StripeType = ws2811.WS2811StripGBR
+	case "BRG":
+		opt.Channels[0].StripeType = ws2811.WS2811StripBRG
+	case "BGR":
+		opt.Channels[0].StripeType = ws2811.WS2811StripBGR
+	default:
+		opt.Channels[0].StripeType = ws2811.WS2811StripRGB
+	}
 
 	dev, err := ws2811.MakeWS2811(&opt)
 	if err != nil {
@@ -62,7 +73,7 @@ func Setup(brightness, ledCount int) (*LED, error) {
 
 func (ls *LED) Startup() {
 	// startup animation, once this is complete, builds can start
-	ls.Wipe(0x0690BA)
+	ls.Wipe(lights.HexToColor("06BA90")) //teal
 }
 
 func (ls *LED) Wipe(color uint32) error {
@@ -78,7 +89,7 @@ func (ls *LED) Wipe(color uint32) error {
 
 func (ls *LED) Display(ledValues *map[string]Flare) error {
 	for i := 0; i < len(ls.WS.Leds(0)); i++ {
-		ls.WS.Leds(0)[i] = 0x000000
+		ls.WS.Leds(0)[i] = lights.HexToColor("000000")
 	}
 
 	for k, v := range *ledValues {
