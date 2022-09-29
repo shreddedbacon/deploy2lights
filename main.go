@@ -140,10 +140,12 @@ func main() {
 					fmt.Println(err)
 					time.Sleep(time.Second)
 					ls.Wipe(lights.HexToColor("06BA90")) //teal
-					continue
+					break
 				}
+				breakout := false
 				for _, deploy := range *deployments {
 					if deploy.Name == deployment.DeployEnvironmentLatest {
+						fmt.Println(deploy.Name, deploy.Status)
 						switch deploy.Status {
 						case "new":
 							for j := 1; j <= 8; j++ {
@@ -169,20 +171,26 @@ func main() {
 								ls.Wipe(lights.HexToColor("7BA832")) //lighter green
 								ls.Wipe(lights.HexToColor("BBFF00")) //teal green
 							}
+							breakout = true
 						case "failed":
 							for j := 1; j <= 8; j++ {
 								ls.Wipe(lights.HexToColor("FF0000")) //red
 								ls.Wipe(lights.HexToColor("EB8F34")) //orange
 								ls.Wipe(lights.HexToColor("FFFF00")) //yellow
 							}
+							breakout = true
 						case "cancelled":
 							for j := 1; j <= 8; j++ {
 								ls.Wipe(lights.HexToColor("FF0000")) //red
 								ls.Wipe(lights.HexToColor("EB8F34")) //orange
 								ls.Wipe(lights.HexToColor("FFFF00")) //yellow
 							}
+							breakout = true
 						}
 					}
+				}
+				if breakout {
+					break
 				}
 				// time.Sleep(5 * time.Second) // sleep for 5 seconds, wait total 250 seconds (token will expire)
 				timeout++
