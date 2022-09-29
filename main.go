@@ -68,14 +68,20 @@ func main() {
 	for {
 		if pin.EdgeDetected() {
 			fmt.Println("button pressed")
-			ls.Wipe(lights.HexToColor("FF0000")) //red
-			ls.Wipe(lights.HexToColor("00FF00")) //green
+			// ls.Wipe(lights.HexToColor("FF0000")) //red
+			// ls.Wipe(lights.HexToColor("00FF00")) //green
+			// ls.Wipe(lights.HexToColor("0000FF")) //blue
+			// ls.Wipe(lights.HexToColor("FF00FF")) //purple
+			// ls.Wipe(lights.HexToColor("FFFF00")) //yellow
+			// ls.Wipe(lights.HexToColor("00FFFF")) //cyan
+			// ls.Wipe(lights.HexToColor("EB8F34")) //orange
+			// ls.Wipe(lights.HexToColor("06BA90")) //teal
 			ls.Wipe(lights.HexToColor("0000FF")) //blue
-			ls.Wipe(lights.HexToColor("FF00FF")) //purple
-			ls.Wipe(lights.HexToColor("FFFF00")) //yellow
-			ls.Wipe(lights.HexToColor("00FFFF")) //cyan
-			ls.Wipe(lights.HexToColor("EB8F34")) //orange
 			ls.Wipe(lights.HexToColor("06BA90")) //teal
+			ls.Wipe(lights.HexToColor("48D99F")) //teal green
+			ls.Wipe(lights.HexToColor("0000FF")) //blue
+			ls.Wipe(lights.HexToColor("06BA90")) //teal
+			ls.Wipe(lights.HexToColor("48D99F")) //teal green
 			token, err := sshtoken.GetToken("/home/pi", "lagoon-ssh.apps.shreddedbacon.com", "32222")
 			if err != nil {
 				ls.Wipe(lights.HexToColor("FF0000")) //red
@@ -114,15 +120,61 @@ func main() {
 				ls.Wipe(lights.HexToColor("06BA90")) //teal
 				continue
 			}
-			fmt.Println(deployment, id.String())
-			deployments, err := lagoon.GetDeploymentsByBulkID(ctx, id.String(), l)
-			fmt.Println(deployments)
 			ls.Wipe(lights.HexToColor("00FF00")) //green
 			ls.Wipe(lights.HexToColor("7BA832")) //lighter green
 			ls.Wipe(lights.HexToColor("48D99F")) //teal green
 			ls.Wipe(lights.HexToColor("00FF00")) //green
 			ls.Wipe(lights.HexToColor("7BA832")) //lighter green
 			ls.Wipe(lights.HexToColor("48D99F")) //teal green
+			fmt.Println(deployment.DeployEnvironmentLatest, id.String())
+			timeout := 1
+			for timeout <= 50 {
+				deployments, err := lagoon.GetDeploymentsByBulkID(ctx, id.String(), l)
+				for _, deploy := range *deployments {
+					if deploy.Name == deployment.DeployEnvironmentLatest {
+						switch deploy.Status {
+						case "new":
+							for j := 1; j <= 8; j++ {
+								ls.Wipe(lights.HexToColor("6200ff")) //purple
+								ls.Wipe(lights.HexToColor("a77bed")) //lighter purple
+								ls.Wipe(lights.HexToColor("8249ab")) //lighter again purple
+							}
+						case "pending":
+							for j := 1; j <= 8; j++ {
+								ls.Wipe(lights.HexToColor("003cff")) //blue
+								ls.Wipe(lights.HexToColor("3c66f0")) //lighter blue
+								ls.Wipe(lights.HexToColor("314482")) //lighter again blue
+							}
+						case "running":
+							for j := 1; j <= 8; j++ {
+								ls.Wipe(lights.HexToColor("00f7ff")) //light blue
+								ls.Wipe(lights.HexToColor("027399")) //cyan blue
+								ls.Wipe(lights.HexToColor("2d8385")) //teal blue
+							}
+						case "complete":
+							for j := 1; j <= 8; j++ {
+								ls.Wipe(lights.HexToColor("00FF00")) //green
+								ls.Wipe(lights.HexToColor("7BA832")) //lighter green
+								ls.Wipe(lights.HexToColor("BBFF00")) //teal green
+							}
+						case "failed":
+							for j := 1; j <= 8; j++ {
+								ls.Wipe(lights.HexToColor("FF0000")) //red
+								ls.Wipe(lights.HexToColor("EB8F34")) //orange
+								ls.Wipe(lights.HexToColor("FFFF00")) //yellow
+							}
+						case "cancelled":
+							for j := 1; j <= 8; j++ {
+								ls.Wipe(lights.HexToColor("FF0000")) //red
+								ls.Wipe(lights.HexToColor("EB8F34")) //orange
+								ls.Wipe(lights.HexToColor("FFFF00")) //yellow
+							}
+						}
+					}
+				}
+				// time.Sleep(5 * time.Second) // sleep for 5 seconds, wait total 250 seconds (token will expire)
+				timeout++
+			}
 			ls.Wipe(lights.HexToColor("06BA90")) //teal
 		}
 		time.Sleep(time.Second)
