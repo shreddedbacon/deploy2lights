@@ -79,9 +79,6 @@ func main() {
 			ls.Wipe(lights.HexToColor("0000FF")) //blue
 			ls.Wipe(lights.HexToColor("06BA90")) //teal
 			ls.Wipe(lights.HexToColor("48D99F")) //teal green
-			ls.Wipe(lights.HexToColor("0000FF")) //blue
-			ls.Wipe(lights.HexToColor("06BA90")) //teal
-			ls.Wipe(lights.HexToColor("48D99F")) //teal green
 			token, err := sshtoken.GetToken("/home/pi", "lagoon-ssh.apps.shreddedbacon.com", "32222")
 			if err != nil {
 				ls.Wipe(lights.HexToColor("FF0000")) //red
@@ -120,11 +117,8 @@ func main() {
 				ls.Wipe(lights.HexToColor("06BA90")) //teal
 				continue
 			}
-			ls.Wipe(lights.HexToColor("00FF00")) //green
-			ls.Wipe(lights.HexToColor("7BA832")) //lighter green
-			ls.Wipe(lights.HexToColor("48D99F")) //teal green
-			ls.Wipe(lights.HexToColor("00FF00")) //green
-			ls.Wipe(lights.HexToColor("7BA832")) //lighter green
+			ls.Wipe(lights.HexToColor("0000FF")) //blue
+			ls.Wipe(lights.HexToColor("06BA90")) //teal
 			ls.Wipe(lights.HexToColor("48D99F")) //teal green
 			fmt.Println(deployment.DeployEnvironmentLatest, id.String())
 			timeout := 1
