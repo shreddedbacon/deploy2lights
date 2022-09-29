@@ -155,9 +155,9 @@ func main() {
 							}
 						case "pending":
 							for j := 1; j <= 8; j++ {
-								ls.Wipe(lights.HexToColor("003cff")) //blue
-								ls.Wipe(lights.HexToColor("3c66f0")) //lighter blue
-								ls.Wipe(lights.HexToColor("314482")) //lighter again blue
+								ls.Wipe(lights.HexToColor("f542b6")) //pink
+								ls.Wipe(lights.HexToColor("87095b")) //darker pink
+								ls.Wipe(lights.HexToColor("e681c2")) //lighter pink
 							}
 						case "running":
 							for j := 1; j <= 8; j++ {
