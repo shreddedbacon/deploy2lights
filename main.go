@@ -115,6 +115,10 @@ func main() {
 				continue
 			}
 			fmt.Println(deployment, id.String())
+
+			l := lclient.New(lagoonAPI, token, "deploy2lights", false)
+			deployments, err := lagoon.GetDeploymentsByBulkID(ctx, id.String(), l)
+			fmt.Println(deployments)
 			ls.Wipe(lights.HexToColor("00FF00")) //green
 			ls.Wipe(lights.HexToColor("7BA832")) //lighter green
 			ls.Wipe(lights.HexToColor("48D99F")) //teal green

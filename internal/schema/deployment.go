@@ -19,3 +19,15 @@ type EnvKeyValueInput struct {
 type DeployEnvironmentLatest struct {
 	DeployEnvironmentLatest string `json:"deployEnvironmentLatest"`
 }
+
+type Deployment struct {
+	ID          int              `json:"id,omitempty"`
+	Name        string           `json:"name,omitempty"`
+	Status      string           `json:"status,omitempty"`
+	Created     string           `json:"created,omitempty"`
+	Started     string           `json:"started,omitempty"`
+	Completed   string           `json:"completed,omitempty"`
+	RemoteID    string           `json:"remoteId,omitempty"`
+	Logs        string           `json:"logs,omitempty"`
+	Environment EnvironmentInput `json:"environment"`
+}
