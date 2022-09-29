@@ -130,6 +130,18 @@ func main() {
 			timeout := 1
 			for timeout <= 50 {
 				deployments, err := lagoon.GetDeploymentsByBulkID(ctx, id.String(), l)
+				if err != nil {
+					ls.Wipe(lights.HexToColor("FF0000")) //red
+					ls.Wipe(lights.HexToColor("EB8F34")) //orange
+					ls.Wipe(lights.HexToColor("FFFF00")) //yellow
+					ls.Wipe(lights.HexToColor("FF0000")) //red
+					ls.Wipe(lights.HexToColor("EB8F34")) //orange
+					ls.Wipe(lights.HexToColor("FFFF00")) //yellow
+					fmt.Println(err)
+					time.Sleep(time.Second)
+					ls.Wipe(lights.HexToColor("06BA90")) //teal
+					continue
+				}
 				for _, deploy := range *deployments {
 					if deploy.Name == deployment.DeployEnvironmentLatest {
 						switch deploy.Status {
