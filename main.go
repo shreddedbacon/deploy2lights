@@ -68,14 +68,6 @@ func main() {
 	for {
 		if pin.EdgeDetected() {
 			fmt.Println("button pressed")
-			// ls.Wipe(lights.HexToColor("FF0000")) //red
-			// ls.Wipe(lights.HexToColor("00FF00")) //green
-			// ls.Wipe(lights.HexToColor("0000FF")) //blue
-			// ls.Wipe(lights.HexToColor("FF00FF")) //purple
-			// ls.Wipe(lights.HexToColor("FFFF00")) //yellow
-			// ls.Wipe(lights.HexToColor("00FFFF")) //cyan
-			// ls.Wipe(lights.HexToColor("EB8F34")) //orange
-			// ls.Wipe(lights.HexToColor("06BA90")) //teal
 			ls.Wipe(lights.HexToColor("0000FF")) //blue
 			ls.Wipe(lights.HexToColor("06BA90")) //teal
 			ls.Wipe(lights.HexToColor("48D99F")) //teal green
@@ -87,7 +79,7 @@ func main() {
 				ls.Wipe(lights.HexToColor("FF0000")) //red
 				ls.Wipe(lights.HexToColor("EB8F34")) //orange
 				ls.Wipe(lights.HexToColor("FFFF00")) //yellow
-				fmt.Println(err)
+				fmt.Println("generate token error:", err)
 				time.Sleep(time.Second)
 				ls.Wipe(lights.HexToColor("06BA90")) //teal
 				continue
@@ -112,7 +104,7 @@ func main() {
 				ls.Wipe(lights.HexToColor("FF0000")) //red
 				ls.Wipe(lights.HexToColor("EB8F34")) //orange
 				ls.Wipe(lights.HexToColor("FFFF00")) //yellow
-				fmt.Println(err)
+				fmt.Println("deploy error:", err)
 				time.Sleep(time.Second)
 				ls.Wipe(lights.HexToColor("06BA90")) //teal
 				continue
@@ -131,7 +123,7 @@ func main() {
 					ls.Wipe(lights.HexToColor("FF0000")) //red
 					ls.Wipe(lights.HexToColor("EB8F34")) //orange
 					ls.Wipe(lights.HexToColor("FFFF00")) //yellow
-					fmt.Println(err)
+					fmt.Println("list deploy error:", err)
 					time.Sleep(time.Second)
 					ls.Wipe(lights.HexToColor("06BA90")) //teal
 					break
