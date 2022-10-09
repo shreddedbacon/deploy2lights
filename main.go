@@ -12,11 +12,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/stianeikeland/go-rpio"
 
-	// "github.com/uselagoon/deploy2lights/internal/lagoon"
-	// lclient "github.com/uselagoon/deploy2lights/internal/lagoon/client"
 	"github.com/uselagoon/deploy2lights/internal/lights"
-	// "github.com/uselagoon/deploy2lights/internal/schema"
-	// "github.com/uselagoon/deploy2lights/internal/sshtoken"
 
 	"github.com/shreddedbacon/machinery/api/lagoon"
 	lclient "github.com/shreddedbacon/machinery/api/lagoon/client"
@@ -100,7 +96,8 @@ func main() {
 						Name: projectName,
 					},
 				},
-				BulkID: id.String(),
+				BulkID:     id.String(),
+				ReturnData: true,
 			}
 			l := lclient.New(lagoonAPI, "deploy2lights", &token, false)
 			deployment, err := lagoon.DeployLatest(ctx, deploy, l)
