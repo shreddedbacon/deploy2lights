@@ -147,6 +147,7 @@ func main() {
 					ls.Wipe(lights.HexToColor("06BA90")) //teal
 					break
 				}
+				fmt.Println(deployments)
 				breakout := false
 				for _, deploy := range *deployments {
 					if deploy.Name == deployment.DeployEnvironmentLatest {
