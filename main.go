@@ -119,7 +119,6 @@ func main() {
 			fmt.Println("started", deployment.DeployEnvironmentLatest, id.String())
 			timeout := 1
 			for timeout <= 150 {
-				fmt.Println("loopies1")
 				err := sshtoken.ValidateOrRefreshToken("/home/pi/.ssh/id_rsa", "lagoon-ssh.apps.shreddedbacon.com", "32222", &token)
 				if err != nil {
 					ls.Wipe(lights.HexToColor("FF0000")) //red
@@ -133,7 +132,6 @@ func main() {
 					ls.Wipe(lights.HexToColor("06BA90")) //teal
 					break
 				}
-				fmt.Println("loopies2")
 				deployments, err := lagoon.GetDeploymentsByBulkID(ctx, id.String(), l)
 				if err != nil {
 					ls.Wipe(lights.HexToColor("FF0000")) //red
@@ -147,7 +145,6 @@ func main() {
 					ls.Wipe(lights.HexToColor("06BA90")) //teal
 					break
 				}
-				fmt.Println(deployments)
 				breakout := false
 				for _, deploy := range *deployments {
 					if deploy.Name == deployment.DeployEnvironmentLatest {
