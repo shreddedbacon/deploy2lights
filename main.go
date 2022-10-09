@@ -116,10 +116,24 @@ func main() {
 			ls.Wipe(lights.HexToColor("0000FF")) //blue
 			ls.Wipe(lights.HexToColor("06BA90")) //teal
 			ls.Wipe(lights.HexToColor("48D99F")) //teal green
-			fmt.Println(deployment.DeployEnvironmentLatest, id.String())
+			fmt.Println("started", deployment.DeployEnvironmentLatest, id.String())
 			timeout := 1
 			for timeout <= 150 {
-				err = sshtoken.ValidateOrRefreshToken("/home/pi/.ssh/id_rsa", "lagoon-ssh.apps.shreddedbacon.com", "32222", &token)
+				fmt.Println("loopies1")
+				err := sshtoken.ValidateOrRefreshToken("/home/pi/.ssh/id_rsa", "lagoon-ssh.apps.shreddedbacon.com", "32222", &token)
+				if err != nil {
+					ls.Wipe(lights.HexToColor("FF0000")) //red
+					ls.Wipe(lights.HexToColor("EB8F34")) //orange
+					ls.Wipe(lights.HexToColor("FFFF00")) //yellow
+					ls.Wipe(lights.HexToColor("FF0000")) //red
+					ls.Wipe(lights.HexToColor("EB8F34")) //orange
+					ls.Wipe(lights.HexToColor("FFFF00")) //yellow
+					fmt.Println("token validation error:", err)
+					time.Sleep(time.Second)
+					ls.Wipe(lights.HexToColor("06BA90")) //teal
+					break
+				}
+				fmt.Println("loopies2")
 				deployments, err := lagoon.GetDeploymentsByBulkID(ctx, id.String(), l)
 				if err != nil {
 					ls.Wipe(lights.HexToColor("FF0000")) //red
