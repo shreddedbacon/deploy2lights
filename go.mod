@@ -7,7 +7,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/machinebox/graphql v0.2.2
 	github.com/rpi-ws281x/rpi-ws281x-go v1.0.8
-	github.com/shreddedbacon/machinery v0.0.0-20221009031403-fef2f78a1a09
+	github.com/shreddedbacon/machinery v0.0.0-20221009033229-4c59f4f798f4
 	github.com/stianeikeland/go-rpio v4.2.0+incompatible
 	golang.org/x/crypto v0.0.0-20221005025214-4161e89ecf1b
 )
