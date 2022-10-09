@@ -11,11 +11,17 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/stianeikeland/go-rpio"
-	"github.com/uselagoon/deploy2lights/internal/lagoon"
-	lclient "github.com/uselagoon/deploy2lights/internal/lagoon/client"
+
+	// "github.com/uselagoon/deploy2lights/internal/lagoon"
+	// lclient "github.com/uselagoon/deploy2lights/internal/lagoon/client"
 	"github.com/uselagoon/deploy2lights/internal/lights"
-	"github.com/uselagoon/deploy2lights/internal/schema"
-	"github.com/uselagoon/deploy2lights/internal/sshtoken"
+	// "github.com/uselagoon/deploy2lights/internal/schema"
+	// "github.com/uselagoon/deploy2lights/internal/sshtoken"
+
+	"github.com/shreddedbacon/machinery/api/lagoon"
+	lclient "github.com/shreddedbacon/machinery/api/lagoon/client"
+	"github.com/shreddedbacon/machinery/api/schema"
+	"github.com/shreddedbacon/machinery/utils/lagoon/sshtoken"
 )
 
 func main() {
@@ -71,7 +77,8 @@ func main() {
 			ls.Wipe(lights.HexToColor("0000FF")) //blue
 			ls.Wipe(lights.HexToColor("06BA90")) //teal
 			ls.Wipe(lights.HexToColor("48D99F")) //teal green
-			token, err := sshtoken.GetToken("/home/pi", "lagoon-ssh.apps.shreddedbacon.com", "32222")
+			token := ""
+			err = sshtoken.ValidateOrRefreshToken("/home/pi/.ssh/id_rsa", "lagoon-ssh.apps.shreddedbacon.com", "32222", &token)
 			if err != nil {
 				ls.Wipe(lights.HexToColor("FF0000")) //red
 				ls.Wipe(lights.HexToColor("EB8F34")) //orange
@@ -95,7 +102,7 @@ func main() {
 				},
 				BulkID: id.String(),
 			}
-			l := lclient.New(lagoonAPI, token, "deploy2lights", false)
+			l := lclient.New(lagoonAPI, "deploy2lights", &token, false)
 			deployment, err := lagoon.DeployLatest(ctx, deploy, l)
 			if err != nil {
 				ls.Wipe(lights.HexToColor("FF0000")) //red
@@ -114,7 +121,8 @@ func main() {
 			ls.Wipe(lights.HexToColor("48D99F")) //teal green
 			fmt.Println(deployment.DeployEnvironmentLatest, id.String())
 			timeout := 1
-			for timeout <= 50 {
+			for timeout <= 150 {
+				err = sshtoken.ValidateOrRefreshToken("/home/pi/.ssh/id_rsa", "lagoon-ssh.apps.shreddedbacon.com", "32222", &token)
 				deployments, err := lagoon.GetDeploymentsByBulkID(ctx, id.String(), l)
 				if err != nil {
 					ls.Wipe(lights.HexToColor("FF0000")) //red
