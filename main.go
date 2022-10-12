@@ -9,7 +9,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/stianeikeland/go-rpio"
 
 	"github.com/uselagoon/deploy2lights/internal/lights"
@@ -18,6 +17,8 @@ import (
 	lclient "github.com/shreddedbacon/machinery/api/lagoon/client"
 	"github.com/shreddedbacon/machinery/api/schema"
 	"github.com/shreddedbacon/machinery/utils/lagoon/sshtoken"
+
+	"github.com/mattes/go-asciibot"
 )
 
 func main() {
@@ -95,7 +96,7 @@ func main() {
 				ls.Wipe(lights.HexToColor("06BA90")) //teal
 				continue
 			}
-			id := uuid.New()
+			// id := uuid.New()
 			ctx := context.Background()
 			deploy := &schema.DeployEnvironmentLatestInput{
 				Environment: schema.EnvironmentInput{
@@ -107,7 +108,7 @@ func main() {
 				BuildVariables: []schema.EnvKeyValueInput{
 					{
 						Name:  "LAGOON_BUILD_NAME",
-						Value: fmt.Sprintf("deploy-id: %s", id.String()),
+						Value: fmt.Sprintf("%s", asciibot.Random()),
 					},
 				},
 				ReturnData: true,
