@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/base64"
 	"flag"
 	"fmt"
 	"log"
@@ -108,7 +109,7 @@ func main() {
 				BuildVariables: []schema.EnvKeyValueInput{
 					{
 						Name:  "LAGOON_BUILD_NAME",
-						Value: b64.StdEncoding.EncodeToString([]byte(asciibot.Random())),
+						Value: base64.StdEncoding.EncodeToString([]byte(asciibot.Random())),
 					},
 				},
 				ReturnData: true,
