@@ -24,6 +24,7 @@ func main() {
 	var ledCount int
 	var ledBrightness int
 	var lagoonAPI, stripType, projectName, environmentName string
+	var sshHost, sshPort, sshKey string
 
 	flag.StringVar(&lagoonAPI, "lagoon-api", "https://lagoon-api.apps.shreddedbacon.com/graphql",
 		"The lagoon API url.")
@@ -44,6 +45,13 @@ func main() {
 
 	ledCount = getEnvInt("LED_COUNT", ledCount)
 	ledBrightness = getEnvInt("LED_BRIGHTNESS", ledBrightness)
+
+	lagoonAPI = getEnvInt("LAGOON_API", lagoonAPI)
+	sshHost = getEnvInt("LAGOON_SSHHOST", sshHost)
+	sshPort = getEnvInt("LAGOON_SSHPORT", sshPort)
+	projectName = getEnvInt("LAGOON_PROJECT", projectName)
+	environmentName = getEnvInt("LAGOON_ENVIRONMENT", environmentName)
+	sshKey = getEnvInt("SSH_KEY", "/home/pi/.ssh/id_rsa")
 
 	ls, err := lights.Setup(ledBrightness, ledCount, stripType)
 	if err != nil {
@@ -74,7 +82,7 @@ func main() {
 			ls.Wipe(lights.HexToColor("06BA90")) //teal
 			ls.Wipe(lights.HexToColor("48D99F")) //teal green
 			token := ""
-			err = sshtoken.ValidateOrRefreshToken("/home/pi/.ssh/id_rsa", "lagoon-ssh.apps.shreddedbacon.com", "32222", &token)
+			err = sshtoken.ValidateOrRefreshToken(sshKey, sshHost, sshPort, &token)
 			if err != nil {
 				ls.Wipe(lights.HexToColor("FF0000")) //red
 				ls.Wipe(lights.HexToColor("EB8F34")) //orange
@@ -96,7 +104,13 @@ func main() {
 						Name: projectName,
 					},
 				},
-				BulkID:     id.String(),
+				BulkID: id.String(),
+				BuildVariables: []schema.EnvKeyValueInput{
+					{
+						Name:  "LAGOON_BUILD_NAME",
+						Value: fmt.Sprintf("deploy-id: %s", id.String()),
+					},
+				},
 				ReturnData: true,
 			}
 			l := lclient.New(lagoonAPI, "deploy2lights", &token, false)
@@ -119,7 +133,7 @@ func main() {
 			fmt.Println("started", deployment.DeployEnvironmentLatest, id.String())
 			timeout := 1
 			for timeout <= 150 {
-				err := sshtoken.ValidateOrRefreshToken("/home/pi/.ssh/id_rsa", "lagoon-ssh.apps.shreddedbacon.com", "32222", &token)
+				err := sshtoken.ValidateOrRefreshToken(sshKey, sshHost, sshPort, &token)
 				if err != nil {
 					ls.Wipe(lights.HexToColor("FF0000")) //red
 					ls.Wipe(lights.HexToColor("EB8F34")) //orange
