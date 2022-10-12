@@ -104,7 +104,6 @@ func main() {
 						Name: projectName,
 					},
 				},
-				BulkID: id.String(),
 				BuildVariables: []schema.EnvKeyValueInput{
 					{
 						Name:  "LAGOON_BUILD_NAME",
@@ -114,6 +113,19 @@ func main() {
 				ReturnData: true,
 			}
 			l := lclient.New(lagoonAPI, "deploy2lights", &token, false)
+			project, err := lagoon.GetMinimalProjectByName(ctx, projectName, l)
+			if err != nil {
+				ls.Wipe(lights.HexToColor("FF0000")) //red
+				ls.Wipe(lights.HexToColor("EB8F34")) //orange
+				ls.Wipe(lights.HexToColor("FFFF00")) //yellow
+				ls.Wipe(lights.HexToColor("FF0000")) //red
+				ls.Wipe(lights.HexToColor("EB8F34")) //orange
+				ls.Wipe(lights.HexToColor("FFFF00")) //yellow
+				fmt.Println("project get error:", err)
+				time.Sleep(time.Second)
+				ls.Wipe(lights.HexToColor("06BA90")) //teal
+				continue
+			}
 			deployment, err := lagoon.DeployLatest(ctx, deploy, l)
 			if err != nil {
 				ls.Wipe(lights.HexToColor("FF0000")) //red
@@ -130,7 +142,7 @@ func main() {
 			ls.Wipe(lights.HexToColor("0000FF")) //blue
 			ls.Wipe(lights.HexToColor("06BA90")) //teal
 			ls.Wipe(lights.HexToColor("48D99F")) //teal green
-			fmt.Println("started", deployment.DeployEnvironmentLatest, id.String())
+			fmt.Println("started", deployment.DeployEnvironmentLatest, project.Name, project.ID)
 			timeout := 1
 			for timeout <= 150 {
 				err := sshtoken.ValidateOrRefreshToken(sshKey, sshHost, sshPort, &token)
@@ -146,7 +158,7 @@ func main() {
 					ls.Wipe(lights.HexToColor("06BA90")) //teal
 					break
 				}
-				deployments, err := lagoon.GetDeploymentsByBulkID(ctx, id.String(), l)
+				deployments, err := lagoon.GetDeploymentsByEnvironment(ctx, project.ID, environmentName, l)
 				if err != nil {
 					ls.Wipe(lights.HexToColor("FF0000")) //red
 					ls.Wipe(lights.HexToColor("EB8F34")) //orange
