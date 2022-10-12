@@ -6,5 +6,10 @@ services:
     restart: always
     environment:
       - LED_STRIP_TYPE=BRG
+      - LAGOON_API=https://api.amazeeio.cloud/graphql
+      - LAGOON_SSHHOST=ssh.lagoon.amazeeio.cloud
+      - LAGOON_SSHPORT=32222
+      - LAGOON_PROJECT=drupalsouth-deploy-demo
+      - LAGOON_ENVIRONMENT=demo1
     volumes:
       - /home/pi/.ssh/id_rsa:/home/pi/.ssh/id_rsa
