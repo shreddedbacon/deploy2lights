@@ -108,7 +108,7 @@ func main() {
 				BuildVariables: []schema.EnvKeyValueInput{
 					{
 						Name:  "LAGOON_BUILD_NAME",
-						Value: b64.StdEncoding.EncodeToString([]byte(asciibot.Random()),
+						Value: b64.StdEncoding.EncodeToString([]byte(asciibot.Random())),
 					},
 				},
 				ReturnData: true,
