@@ -158,7 +158,7 @@ func main() {
 					ls.Wipe(lights.HexToColor("06BA90")) //teal
 					break
 				}
-				deployments, err := lagoon.GetDeploymentsByEnvironment(ctx, project.ID, environmentName, l)
+				environment, err := lagoon.GetDeploymentsByEnvironment(ctx, project.ID, environmentName, l)
 				if err != nil {
 					ls.Wipe(lights.HexToColor("FF0000")) //red
 					ls.Wipe(lights.HexToColor("EB8F34")) //orange
@@ -172,7 +172,7 @@ func main() {
 					break
 				}
 				breakout := false
-				for _, deploy := range *deployments {
+				for _, deploy := range environment.Deployments {
 					if deploy.Name == deployment.DeployEnvironmentLatest {
 						fmt.Println(deploy.Name, deploy.Status)
 						switch deploy.Status {
