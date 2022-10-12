@@ -46,12 +46,12 @@ func main() {
 	ledCount = getEnvInt("LED_COUNT", ledCount)
 	ledBrightness = getEnvInt("LED_BRIGHTNESS", ledBrightness)
 
-	lagoonAPI = getEnvInt("LAGOON_API", lagoonAPI)
-	sshHost = getEnvInt("LAGOON_SSHHOST", sshHost)
-	sshPort = getEnvInt("LAGOON_SSHPORT", sshPort)
-	projectName = getEnvInt("LAGOON_PROJECT", projectName)
-	environmentName = getEnvInt("LAGOON_ENVIRONMENT", environmentName)
-	sshKey = getEnvInt("SSH_KEY", "/home/pi/.ssh/id_rsa")
+	lagoonAPI = getEnv("LAGOON_API", lagoonAPI)
+	sshHost = getEnv("LAGOON_SSHHOST", sshHost)
+	sshPort = getEnv("LAGOON_SSHPORT", sshPort)
+	projectName = getEnv("LAGOON_PROJECT", projectName)
+	environmentName = getEnv("LAGOON_ENVIRONMENT", environmentName)
+	sshKey = getEnv("SSH_KEY", "/home/pi/.ssh/id_rsa")
 
 	ls, err := lights.Setup(ledBrightness, ledCount, stripType)
 	if err != nil {
