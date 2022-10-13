@@ -177,7 +177,7 @@ func main() {
 				for _, deploy := range environment.Deployments {
 					if deploy.Name == deployment.DeployEnvironmentLatest {
 						fmt.Println(deploy.Name, deploy.Status)
-						wipeCount := 2
+						wipeCount := 4
 						switch deploy.Status {
 						case "new":
 							for j := 1; j <= wipeCount; j++ {
@@ -198,21 +198,21 @@ func main() {
 								ls.Wipe(lights.HexToColor("2d8385")) //teal blue
 							}
 						case "complete":
-							for j := 1; j <= 8; j++ {
+							for j := 1; j <= 10; j++ {
 								ls.Wipe(lights.HexToColor("00FF00")) //green
 								ls.Wipe(lights.HexToColor("7BA832")) //lighter green
 								ls.Wipe(lights.HexToColor("BBFF00")) //teal green
 							}
 							breakout = true
 						case "failed":
-							for j := 1; j <= 8; j++ {
+							for j := 1; j <= 10; j++ {
 								ls.Wipe(lights.HexToColor("FF0000")) //red
 								ls.Wipe(lights.HexToColor("EB8F34")) //orange
 								ls.Wipe(lights.HexToColor("FFFF00")) //yellow
 							}
 							breakout = true
 						case "cancelled":
-							for j := 1; j <= 8; j++ {
+							for j := 1; j <= 10; j++ {
 								ls.Wipe(lights.HexToColor("FF0000")) //red
 								ls.Wipe(lights.HexToColor("EB8F34")) //orange
 								ls.Wipe(lights.HexToColor("FFFF00")) //yellow
