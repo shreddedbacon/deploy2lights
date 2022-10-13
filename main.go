@@ -146,7 +146,7 @@ func main() {
 			ls.Wipe(lights.HexToColor("48D99F")) //teal green
 			fmt.Println("started", deployment.DeployEnvironmentLatest, project.Name, project.ID)
 			timeout := 1
-			for timeout <= 150 {
+			for timeout <= 600 {
 				err := sshtoken.ValidateOrRefreshToken(sshKey, sshHost, sshPort, &token)
 				if err != nil {
 					ls.Wipe(lights.HexToColor("FF0000")) //red
@@ -177,21 +177,22 @@ func main() {
 				for _, deploy := range environment.Deployments {
 					if deploy.Name == deployment.DeployEnvironmentLatest {
 						fmt.Println(deploy.Name, deploy.Status)
+						wipeCount := 2
 						switch deploy.Status {
 						case "new":
-							for j := 1; j <= 8; j++ {
+							for j := 1; j <= wipeCount; j++ {
 								ls.Wipe(lights.HexToColor("6200ff")) //purple
 								ls.Wipe(lights.HexToColor("a77bed")) //lighter purple
 								ls.Wipe(lights.HexToColor("8249ab")) //lighter again purple
 							}
 						case "pending":
-							for j := 1; j <= 8; j++ {
+							for j := 1; j <= wipeCount; j++ {
 								ls.Wipe(lights.HexToColor("f542b6")) //pink
 								ls.Wipe(lights.HexToColor("87095b")) //darker pink
 								ls.Wipe(lights.HexToColor("e681c2")) //lighter pink
 							}
 						case "running":
-							for j := 1; j <= 8; j++ {
+							for j := 1; j <= wipeCount; j++ {
 								ls.Wipe(lights.HexToColor("00f7ff")) //light blue
 								ls.Wipe(lights.HexToColor("027399")) //cyan blue
 								ls.Wipe(lights.HexToColor("2d8385")) //teal blue
