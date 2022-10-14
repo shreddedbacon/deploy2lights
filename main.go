@@ -105,7 +105,6 @@ func main() {
 				//red orange yellow
 				builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 				time.Sleep(time.Second * 5)
-				ls.Wipe(lights.HexToColor("06BA90")) //teal
 				continue
 			}
 			ctx := context.Background()
@@ -131,7 +130,6 @@ func main() {
 				//red orange yellow
 				builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 				time.Sleep(time.Second * 5)
-				ls.Wipe(lights.HexToColor("06BA90")) //teal
 				continue
 			}
 			deployment, err := lagoon.DeployLatest(ctx, deploy, l)
@@ -140,7 +138,6 @@ func main() {
 				//red orange yellow
 				builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 				time.Sleep(time.Second * 5)
-				ls.Wipe(lights.HexToColor("06BA90")) //teal
 				continue
 			}
 			fmt.Println("started", deployment.DeployEnvironmentLatest, project.Name, project.ID)
@@ -152,7 +149,6 @@ func main() {
 					//red orange yellow
 					builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 					time.Sleep(time.Second * 5)
-					ls.Wipe(lights.HexToColor("06BA90")) //teal
 					break
 				}
 				environment, err := lagoon.GetDeploymentsByEnvironment(ctx, project.ID, environmentName, l)
@@ -161,7 +157,6 @@ func main() {
 					//red orange yellow
 					builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 					time.Sleep(time.Second * 5)
-					ls.Wipe(lights.HexToColor("06BA90")) //teal
 					break
 				}
 				breakout := false
@@ -207,13 +202,12 @@ func main() {
 					}
 				}
 				if breakout {
-					builds = &[]string{}
-					ls.Wipe(lights.HexToColor("06BA90")) //teal
 					break
 				}
 				timeout++
 			}
 			builds = &[]string{}
+			time.Sleep(time.Second)
 			ls.Wipe(lights.HexToColor("06BA90")) //teal
 		}
 		time.Sleep(time.Second)
