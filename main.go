@@ -166,20 +166,14 @@ func main() {
 						// wipeCount := 4
 						switch deploy.Status {
 						case "new":
-							//purple, lighter purple, lighter again purple
-							// builds = &[]string{"6200FF", "A77BED", "8249AB"}
 							//purple, darker purple, lighter purple
 							builds = &[]string{"460ba3", "391f61", "925ee0"}
 							time.Sleep(time.Second * 5)
 						case "pending":
 							//pink, darker pink, lighter pink
-							// builds = &[]string{"F542B6", "87095B", "E681C2"}
-							//pink, darker pink, lighter pink
 							builds = &[]string{"9e0e6b", "6e2b56", "e36bb8"}
 							time.Sleep(time.Second * 5)
 						case "running":
-							//light blue, cyan blue, teal blue
-							// builds = &[]string{"00F7FF", "027399", "2D8385"}
 							//teal, darker teal, lighter teal
 							builds = &[]string{"06BA90", "2C7362", "67E0C3"}
 							time.Sleep(time.Second * 5)
