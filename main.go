@@ -192,24 +192,23 @@ func main() {
 							//green, lighter green, teal green
 							builds = &[]string{"00FF00", "1a6b1a", "4ddb4d"}
 							time.Sleep(time.Second * 10)
-							ls.Wipe(lights.HexToColor("06BA90")) //teal
 							breakout = true
 						case "failed":
 							//red, orange, yellow
 							builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 							time.Sleep(time.Second * 10)
-							ls.Wipe(lights.HexToColor("06BA90")) //teal
 							breakout = true
 						case "cancelled":
 							//red, orange, yellow
 							builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 							time.Sleep(time.Second * 10)
-							ls.Wipe(lights.HexToColor("06BA90")) //teal
 							breakout = true
 						}
 					}
 				}
 				if breakout {
+					builds = &[]string{}
+					ls.Wipe(lights.HexToColor("06BA90")) //teal
 					break
 				}
 				timeout++
