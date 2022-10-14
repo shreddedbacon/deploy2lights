@@ -173,35 +173,38 @@ func main() {
 						case "new":
 							//purple, lighter purple, lighter again purple
 							// builds = &[]string{"6200FF", "A77BED", "8249AB"}
-							//teal, darker teal, lighter teal
-							builds = &[]string{"06BA90", "2C7362", "67E0C3"}
+							//purple, darker purple, lighter purple
+							builds = &[]string{"460ba3", "391f61", "925ee0"}
 							time.Sleep(time.Second * 5)
 						case "pending":
 							//pink, darker pink, lighter pink
 							// builds = &[]string{"F542B6", "87095B", "E681C2"}
-							//teal, darker teal, lighter teal
-							builds = &[]string{"0699ba", "23606e", "69cae0"}
+							//pink, darker pink, lighter pink
+							builds = &[]string{"9e0e6b", "6e2b56", "e36bb8"}
 							time.Sleep(time.Second * 5)
 						case "running":
 							//light blue, cyan blue, teal blue
 							// builds = &[]string{"00F7FF", "027399", "2D8385"}
 							//teal, darker teal, lighter teal
-							builds = &[]string{"062dba", "202e61", "5e7be6"}
+							builds = &[]string{"06BA90", "2C7362", "67E0C3"}
 							time.Sleep(time.Second * 5)
 						case "complete":
 							//green, lighter green, teal green
 							builds = &[]string{"00FF00", "1a6b1a", "4ddb4d"}
 							time.Sleep(time.Second * 10)
+							ls.Wipe(lights.HexToColor("06BA90")) //teal
 							breakout = true
 						case "failed":
 							//red, orange, yellow
 							builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 							time.Sleep(time.Second * 10)
+							ls.Wipe(lights.HexToColor("06BA90")) //teal
 							breakout = true
 						case "cancelled":
 							//red, orange, yellow
 							builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 							time.Sleep(time.Second * 10)
+							ls.Wipe(lights.HexToColor("06BA90")) //teal
 							breakout = true
 						}
 					}
