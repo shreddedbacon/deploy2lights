@@ -86,35 +86,28 @@ func main() {
 		for {
 			if len(*builds) > 0 {
 				for _, c := range *builds {
-					ls.Wipe(lights.HexToColor(c)) //blue
+					ls.Wipe(lights.HexToColor(c))
 				}
 			}
 		}
 	}()
 
+	ls.Wipe(lights.HexToColor("06BA90")) //teal
+
 	for {
 		if pin.EdgeDetected() {
 			fmt.Println("button pressed")
 			builds = &[]string{"0000FF", "06BA90", "48D99F"}
-			// ls.Wipe(lights.HexToColor("0000FF")) //blue
-			// ls.Wipe(lights.HexToColor("06BA90")) //teal
-			// ls.Wipe(lights.HexToColor("48D99F")) //teal green
 			token := ""
 			err = sshtoken.ValidateOrRefreshToken(sshKey, sshHost, sshPort, &token)
 			if err != nil {
 				fmt.Println("generate token error:", err)
-				// ls.Wipe(lights.HexToColor("FF0000")) //red
-				// ls.Wipe(lights.HexToColor("EB8F34")) //orange
-				// ls.Wipe(lights.HexToColor("FFFF00")) //yellow
-				// ls.Wipe(lights.HexToColor("FF0000")) //red
-				// ls.Wipe(lights.HexToColor("EB8F34")) //orange
-				// ls.Wipe(lights.HexToColor("FFFF00")) //yellow
+				//red orange yellow
 				builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 				time.Sleep(time.Second * 5)
 				ls.Wipe(lights.HexToColor("06BA90")) //teal
 				continue
 			}
-			// id := uuid.New()
 			ctx := context.Background()
 			deploy := &schema.DeployEnvironmentLatestInput{
 				Environment: schema.EnvironmentInput{
@@ -135,6 +128,7 @@ func main() {
 			project, err := lagoon.GetMinimalProjectByName(ctx, projectName, l)
 			if err != nil {
 				fmt.Println("project get error:", err)
+				//red orange yellow
 				builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 				time.Sleep(time.Second * 5)
 				ls.Wipe(lights.HexToColor("06BA90")) //teal
@@ -143,6 +137,7 @@ func main() {
 			deployment, err := lagoon.DeployLatest(ctx, deploy, l)
 			if err != nil {
 				fmt.Println("deploy error:", err)
+				//red orange yellow
 				builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 				time.Sleep(time.Second * 5)
 				ls.Wipe(lights.HexToColor("06BA90")) //teal
@@ -154,6 +149,7 @@ func main() {
 				err := sshtoken.ValidateOrRefreshToken(sshKey, sshHost, sshPort, &token)
 				if err != nil {
 					fmt.Println("token validation error:", err)
+					//red orange yellow
 					builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 					time.Sleep(time.Second * 5)
 					ls.Wipe(lights.HexToColor("06BA90")) //teal
@@ -162,6 +158,7 @@ func main() {
 				environment, err := lagoon.GetDeploymentsByEnvironment(ctx, project.ID, environmentName, l)
 				if err != nil {
 					fmt.Println("list deploy error:", err)
+					//red orange yellow
 					builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 					time.Sleep(time.Second * 5)
 					ls.Wipe(lights.HexToColor("06BA90")) //teal
@@ -174,53 +171,35 @@ func main() {
 						// wipeCount := 4
 						switch deploy.Status {
 						case "new":
-							// for j := 1; j <= wipeCount; j++ {
-							// ls.Wipe(lights.HexToColor("6200ff")) //purple
-							// ls.Wipe(lights.HexToColor("a77bed")) //lighter purple
-							// ls.Wipe(lights.HexToColor("8249ab")) //lighter again purple
-							builds = &[]string{"6200FF", "A77BED", "8249AB"}
+							//purple, lighter purple, lighter again purple
+							// builds = &[]string{"6200FF", "A77BED", "8249AB"}
+							//teal, darker teal, lighter teal
+							builds = &[]string{"06BA90", "2C7362", "67E0C3"}
 							time.Sleep(time.Second * 5)
-							// }
 						case "pending":
-							// for j := 1; j <= wipeCount; j++ {
-							// ls.Wipe(lights.HexToColor("f542b6")) //pink
-							// ls.Wipe(lights.HexToColor("87095b")) //darker pink
-							// ls.Wipe(lights.HexToColor("e681c2")) //lighter pink
-							builds = &[]string{"F542B6", "87095B", "E681C2"}
+							//pink, darker pink, lighter pink
+							// builds = &[]string{"F542B6", "87095B", "E681C2"}
+							//teal, darker teal, lighter teal
+							builds = &[]string{"0699ba", "23606e", "69cae0"}
 							time.Sleep(time.Second * 5)
-							// }
 						case "running":
-							// for j := 1; j <= wipeCount; j++ {
-							// 	ls.Wipe(lights.HexToColor("00f7ff")) //light blue
-							// 	ls.Wipe(lights.HexToColor("027399")) //cyan blue
-							// 	ls.Wipe(lights.HexToColor("2d8385")) //teal blue
-							// }
-							builds = &[]string{"00F7FF", "027399", "2D8385"}
+							//light blue, cyan blue, teal blue
+							// builds = &[]string{"00F7FF", "027399", "2D8385"}
+							//teal, darker teal, lighter teal
+							builds = &[]string{"062dba", "202e61", "5e7be6"}
 							time.Sleep(time.Second * 5)
 						case "complete":
-							// for j := 1; j <= 10; j++ {
-							// 	ls.Wipe(lights.HexToColor("00FF00")) //green
-							// 	ls.Wipe(lights.HexToColor("7BA832")) //lighter green
-							// 	ls.Wipe(lights.HexToColor("BBFF00")) //teal green
-							// }
-							builds = &[]string{"00FF00", "7BA832", "BBFF00"}
+							//green, lighter green, teal green
+							builds = &[]string{"00FF00", "1a6b1a", "4ddb4d"}
 							time.Sleep(time.Second * 10)
 							breakout = true
 						case "failed":
-							// for j := 1; j <= 10; j++ {
-							// 	ls.Wipe(lights.HexToColor("FF0000")) //red
-							// 	ls.Wipe(lights.HexToColor("EB8F34")) //orange
-							// 	ls.Wipe(lights.HexToColor("FFFF00")) //yellow
-							// }
+							//red, orange, yellow
 							builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 							time.Sleep(time.Second * 10)
 							breakout = true
 						case "cancelled":
-							// for j := 1; j <= 10; j++ {
-							// 	ls.Wipe(lights.HexToColor("FF0000")) //red
-							// 	ls.Wipe(lights.HexToColor("EB8F34")) //orange
-							// 	ls.Wipe(lights.HexToColor("FFFF00")) //yellow
-							// }
+							//red, orange, yellow
 							builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 							time.Sleep(time.Second * 10)
 							breakout = true
@@ -230,7 +209,6 @@ func main() {
 				if breakout {
 					break
 				}
-				// time.Sleep(5 * time.Second) // sleep for 5 seconds, wait total 250 seconds (token will expire)
 				timeout++
 			}
 			builds = &[]string{}
