@@ -211,6 +211,7 @@ func main() {
 							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2, oled.AlignCenter)
 							disp.DrawText("==================", oled.TextRow3, oled.AlignRight)
 							disp.DrawText("STATUS: New", oled.TextRow4, oled.AlignCenter)
+							disp.DrawText("STATUS: New", oled.TextRow5, oled.AlignCenter)
 							disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 							//purple, darker purple, lighter purple
 							builds = &[]string{"460ba3", "391f61", "925ee0"}
