@@ -108,6 +108,7 @@ func main() {
 				continue
 			}
 			ctx := context.Background()
+			buildRobot := base64.StdEncoding.EncodeToString([]byte(asciibot.Random()))
 			deploy := &schema.DeployEnvironmentLatestInput{
 				Environment: schema.EnvironmentInput{
 					Name: environmentName,
@@ -117,8 +118,8 @@ func main() {
 				},
 				BuildVariables: []schema.EnvKeyValueInput{
 					{
-						Name:  "LAGOON_BUILD_NAME",
-						Value: base64.StdEncoding.EncodeToString([]byte(asciibot.Random())),
+						Name:  "BUILD_ROBOT",
+						Value: buildRobot,
 					},
 				},
 				ReturnData: true,
