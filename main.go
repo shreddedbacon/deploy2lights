@@ -99,9 +99,8 @@ func main() {
 
 	disp := oled.NewDisplay(128, 64, spiPort, dc, rst)
 	disp.PrintLogo()
-	disp.DrawText("       Ready      ", oled.TextRow6)
-	builds := &[]string{}
 
+	builds := &[]string{}
 	go func() {
 		for {
 			if len(*builds) > 0 {
@@ -118,16 +117,17 @@ func main() {
 		if pin.EdgeDetected() {
 			fmt.Println("button pressed")
 			disp.Clear()
-			disp.DrawText("==================", oled.TextRow1)
-			disp.DrawText(" Triggered Build ", oled.TextRow3)
-			disp.DrawText("==================", oled.TextRow6)
+			disp.DrawText("==================", oled.TextRow1, oled.AlignRight)
+			disp.DrawText("BUILD", oled.TextRow3, oled.AlignCenter)
+			disp.DrawText("TRIGGERED", oled.TextRow4, oled.AlignCenter)
+			disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 			builds = &[]string{"0000FF", "06BA90", "48D99F"}
 			token := ""
 			err = sshtoken.ValidateOrRefreshToken(sshKey, sshHost, sshPort, &token)
 			if err != nil {
-				disp.DrawText("==================", oled.TextRow1)
-				disp.DrawText(" FAILED TO AUTH ", oled.TextRow3)
-				disp.DrawText("==================", oled.TextRow6)
+				disp.DrawText("==================", oled.TextRow1, oled.AlignRight)
+				disp.DrawText("FAILED TO AUTH", oled.TextRow3, oled.AlignCenter)
+				disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 				fmt.Println("generate token error:", err)
 				//red orange yellow
 				builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
@@ -154,9 +154,9 @@ func main() {
 			l := lclient.New(lagoonAPI, "deploy2lights", &token, false)
 			project, err := lagoon.GetMinimalProjectByName(ctx, projectName, l)
 			if err != nil {
-				disp.DrawText("==================", oled.TextRow1)
-				disp.DrawText("PROJECT GET FAILED", oled.TextRow3)
-				disp.DrawText("==================", oled.TextRow6)
+				disp.DrawText("==================", oled.TextRow1, oled.AlignRight)
+				disp.DrawText("PROJECT GET FAILED", oled.TextRow3, oled.AlignCenter)
+				disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 				fmt.Println("project get error:", err)
 				//red orange yellow
 				builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
@@ -165,9 +165,9 @@ func main() {
 			}
 			deployment, err := lagoon.DeployLatest(ctx, deploy, l)
 			if err != nil {
-				disp.DrawText("==================", oled.TextRow1)
-				disp.DrawText(" FAILED TO DEPLOY ", oled.TextRow3)
-				disp.DrawText("==================", oled.TextRow6)
+				disp.DrawText("==================", oled.TextRow1, oled.AlignRight)
+				disp.DrawText("FAILED TO DEPLOY", oled.TextRow3, oled.AlignCenter)
+				disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 				fmt.Println("deploy error:", err)
 				//red orange yellow
 				builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
@@ -179,9 +179,9 @@ func main() {
 			for timeout <= 600 {
 				err := sshtoken.ValidateOrRefreshToken(sshKey, sshHost, sshPort, &token)
 				if err != nil {
-					disp.DrawText("==================", oled.TextRow1)
-					disp.DrawText(" FAILED TO DEPLOY ", oled.TextRow3)
-					disp.DrawText("==================", oled.TextRow6)
+					disp.DrawText("==================", oled.TextRow1, oled.AlignRight)
+					disp.DrawText("FAILED TO DEPLOY", oled.TextRow3, oled.AlignCenter)
+					disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 					fmt.Println("token validation error:", err)
 					//red orange yellow
 					builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
@@ -190,9 +190,9 @@ func main() {
 				}
 				environment, err := lagoon.GetDeploymentsByEnvironment(ctx, project.ID, environmentName, l)
 				if err != nil {
-					disp.DrawText("==================", oled.TextRow1)
-					disp.DrawText(" FAILED TO DEPLOY ", oled.TextRow3)
-					disp.DrawText("==================", oled.TextRow6)
+					disp.DrawText("==================", oled.TextRow1, oled.AlignRight)
+					disp.DrawText("FAILED TO DEPLOY", oled.TextRow3, oled.AlignCenter)
+					disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 					fmt.Println("list deploy error:", err)
 					//red orange yellow
 					builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
@@ -207,73 +207,73 @@ func main() {
 						switch deploy.Status {
 						case "new":
 							disp.Clear()
-							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
-							disp.DrawText("==================", oled.TextRow3)
-							disp.DrawText("STATUS: New", oled.TextRow4)
-							disp.DrawText("==================", oled.TextRow6)
+							disp.DrawText("==================", oled.TextRow1, oled.AlignRight)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow3, oled.AlignRight)
+							disp.DrawText("STATUS: New", oled.TextRow4, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 							//purple, darker purple, lighter purple
 							builds = &[]string{"460ba3", "391f61", "925ee0"}
 							time.Sleep(time.Second * 5)
 						case "queued":
 							disp.Clear()
-							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
-							disp.DrawText("==================", oled.TextRow3)
-							disp.DrawText("STATUS: Queued", oled.TextRow4)
-							disp.DrawText("==================", oled.TextRow6)
+							disp.DrawText("==================", oled.TextRow1, oled.AlignRight)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow3, oled.AlignRight)
+							disp.DrawText("STATUS: Queued", oled.TextRow4, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 							//pink, darker pink, lighter pink
 							builds = &[]string{"9e0e6b", "6e2b56", "e36bb8"}
 							time.Sleep(time.Second * 5)
 						case "pending":
 							disp.Clear()
-							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
-							disp.DrawText("==================", oled.TextRow3)
-							disp.DrawText("STATUS: Pending", oled.TextRow4)
-							disp.DrawText("==================", oled.TextRow6)
+							disp.DrawText("==================", oled.TextRow1, oled.AlignRight)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow3, oled.AlignRight)
+							disp.DrawText("STATUS: Pending", oled.TextRow4, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 							//pink, darker pink, lighter pink
 							builds = &[]string{"9e0e6b", "6e2b56", "e36bb8"}
 							time.Sleep(time.Second * 5)
 						case "running":
 							disp.Clear()
-							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
-							disp.DrawText("==================", oled.TextRow3)
-							disp.DrawText("STATUS: Running", oled.TextRow4)
-							disp.DrawText("==================", oled.TextRow6)
+							disp.DrawText("==================", oled.TextRow1, oled.AlignRight)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow3, oled.AlignRight)
+							disp.DrawText("STATUS: Running", oled.TextRow4, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 							//teal, darker teal, lighter teal
 							builds = &[]string{"06BA90", "2C7362", "67E0C3"}
 							time.Sleep(time.Second * 5)
 						case "complete":
 							disp.Clear()
-							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
-							disp.DrawText("==================", oled.TextRow3)
-							disp.DrawText("STATUS: Complete", oled.TextRow4)
-							disp.DrawText("==================", oled.TextRow6)
+							disp.DrawText("==================", oled.TextRow1, oled.AlignRight)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow3, oled.AlignRight)
+							disp.DrawText("STATUS: Complete", oled.TextRow4, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 							//green, lighter green, teal green
 							builds = &[]string{"00FF00", "1a6b1a", "4ddb4d"}
 							time.Sleep(time.Second * 10)
 							breakout = true
 						case "failed":
 							disp.Clear()
-							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
-							disp.DrawText("==================", oled.TextRow3)
-							disp.DrawText("STATUS: Failed", oled.TextRow4)
-							disp.DrawText("==================", oled.TextRow6)
+							disp.DrawText("==================", oled.TextRow1, oled.AlignRight)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow3, oled.AlignRight)
+							disp.DrawText("STATUS: Failed", oled.TextRow4, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 							//red, orange, yellow
 							builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 							time.Sleep(time.Second * 10)
 							breakout = true
 						case "cancelled":
 							disp.Clear()
-							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
-							disp.DrawText("==================", oled.TextRow3)
-							disp.DrawText("STATUS: Cancelled", oled.TextRow4)
-							disp.DrawText("==================", oled.TextRow6)
+							disp.DrawText("==================", oled.TextRow1, oled.AlignRight)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow3, oled.AlignRight)
+							disp.DrawText("STATUS: Cancelled", oled.TextRow4, oled.AlignCenter)
+							disp.DrawText("==================", oled.TextRow6, oled.AlignRight)
 							//red, orange, yellow
 							builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
 							time.Sleep(time.Second * 10)
@@ -291,7 +291,6 @@ func main() {
 			ls.Wipe(lights.HexToColor("06BA90")) //teal
 			disp.Clear()
 			disp.PrintLogo()
-			disp.DrawText("       Ready      ", oled.TextRow6)
 		}
 		time.Sleep(time.Second)
 	}

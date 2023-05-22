@@ -1,8 +1,10 @@
 package oled
 
 import (
+	"fmt"
 	"image"
 	"log"
+	"strings"
 
 	"periph.io/x/conn/v3/gpio"
 	"periph.io/x/conn/v3/spi"
@@ -21,6 +23,14 @@ var (
 	TextRow4 fixed.Point26_6 = fixed.P(2, 48)
 	TextRow5 fixed.Point26_6 = fixed.P(2, 50)
 	TextRow6 fixed.Point26_6 = fixed.P(2, 62)
+)
+
+type TextAlign string
+
+const (
+	AlignLeft   TextAlign = "left"
+	AlignCenter TextAlign = "center"
+	AlignRight  TextAlign = "right"
 )
 
 var logo = []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -124,12 +134,30 @@ func NewDisplay(w, h int, port spi.Port, dc, rst gpio.PinIO) *Display {
 	}
 }
 
-func (d *Display) DrawText(txt string, dot fixed.Point26_6) {
+func (d *Display) DrawText(txt string, dot fixed.Point26_6, align TextAlign) {
 	d.Text.Dot = dot
-	d.Text.DrawString(txt)
+	switch align {
+	case "center":
+		d.Text.DrawString(centerString(txt, len("==================")))
+	case "left":
+		d.Text.DrawString(padLeft(txt, len("==================")))
+	case "right":
+		fallthrough
+	default:
+		d.Text.DrawString(txt)
+	}
 	if err := d.Dev.Draw(d.Dev.Bounds(), d.Img, image.Point{}); err != nil {
 		log.Println(err)
 	}
+}
+
+func centerString(str string, width int) string {
+	spaces := int(float64(width-len(str)) / 2)
+	return strings.Repeat(" ", spaces) + str + strings.Repeat(" ", width-(spaces+len(str)))
+}
+
+func padLeft(str string, width int) string {
+	return fmt.Sprintf(`%*s`, width, str)
 }
 
 func (d *Display) PrintLogo() {
