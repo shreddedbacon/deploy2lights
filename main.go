@@ -286,8 +286,10 @@ func main() {
 				timeout++
 			}
 			builds = &[]string{}
-			time.Sleep(time.Second)
+			time.Sleep(2 * time.Second)
 			ls.Wipe(lights.HexToColor("06BA90")) //teal
+			disp.Clear()
+			disp.PrintLogo()
 		}
 		time.Sleep(time.Second)
 	}
