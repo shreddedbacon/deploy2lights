@@ -21,8 +21,7 @@ var (
 	TextRow2 fixed.Point26_6 = fixed.P(2, 24)
 	TextRow3 fixed.Point26_6 = fixed.P(2, 36)
 	TextRow4 fixed.Point26_6 = fixed.P(2, 48)
-	TextRow5 fixed.Point26_6 = fixed.P(2, 50)
-	TextRow6 fixed.Point26_6 = fixed.P(2, 62)
+	TextRow5 fixed.Point26_6 = fixed.P(2, 60)
 )
 
 type TextAlign string
