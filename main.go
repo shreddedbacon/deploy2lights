@@ -99,6 +99,7 @@ func main() {
 
 	disp := oled.NewDisplay(128, 64, spiPort, dc, rst)
 	disp.PrintLogo()
+	disp.DrawText("       Ready      ", oled.TextRow6)
 	builds := &[]string{}
 
 	go func() {
@@ -290,6 +291,7 @@ func main() {
 			ls.Wipe(lights.HexToColor("06BA90")) //teal
 			disp.Clear()
 			disp.PrintLogo()
+			disp.DrawText("       Ready      ", oled.TextRow6)
 		}
 		time.Sleep(time.Second)
 	}
