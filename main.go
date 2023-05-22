@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/stianeikeland/go-rpio"
@@ -200,8 +201,9 @@ func main() {
 						// wipeCount := 4
 						switch deploy.Status {
 						case "new":
+							disp.Clear()
 							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(deploy.Name, oled.TextRow2)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
 							disp.DrawText("==================", oled.TextRow3)
 							disp.DrawText("STATUS: New", oled.TextRow4)
 							disp.DrawText("==================", oled.TextRow6)
@@ -209,8 +211,9 @@ func main() {
 							builds = &[]string{"460ba3", "391f61", "925ee0"}
 							time.Sleep(time.Second * 5)
 						case "queued":
+							disp.Clear()
 							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(deploy.Name, oled.TextRow2)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
 							disp.DrawText("==================", oled.TextRow3)
 							disp.DrawText("STATUS: Queued", oled.TextRow4)
 							disp.DrawText("==================", oled.TextRow6)
@@ -218,8 +221,9 @@ func main() {
 							builds = &[]string{"9e0e6b", "6e2b56", "e36bb8"}
 							time.Sleep(time.Second * 5)
 						case "pending":
+							disp.Clear()
 							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(deploy.Name, oled.TextRow2)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
 							disp.DrawText("==================", oled.TextRow3)
 							disp.DrawText("STATUS: Pending", oled.TextRow4)
 							disp.DrawText("==================", oled.TextRow6)
@@ -227,8 +231,9 @@ func main() {
 							builds = &[]string{"9e0e6b", "6e2b56", "e36bb8"}
 							time.Sleep(time.Second * 5)
 						case "running":
+							disp.Clear()
 							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(deploy.Name, oled.TextRow2)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
 							disp.DrawText("==================", oled.TextRow3)
 							disp.DrawText("STATUS: Running", oled.TextRow4)
 							disp.DrawText("==================", oled.TextRow6)
@@ -236,8 +241,9 @@ func main() {
 							builds = &[]string{"06BA90", "2C7362", "67E0C3"}
 							time.Sleep(time.Second * 5)
 						case "complete":
+							disp.Clear()
 							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(deploy.Name, oled.TextRow2)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
 							disp.DrawText("==================", oled.TextRow3)
 							disp.DrawText("STATUS: Complete", oled.TextRow4)
 							disp.DrawText("==================", oled.TextRow6)
@@ -246,8 +252,9 @@ func main() {
 							time.Sleep(time.Second * 10)
 							breakout = true
 						case "failed":
+							disp.Clear()
 							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(deploy.Name, oled.TextRow2)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
 							disp.DrawText("==================", oled.TextRow3)
 							disp.DrawText("STATUS: Failed", oled.TextRow4)
 							disp.DrawText("==================", oled.TextRow6)
@@ -256,8 +263,9 @@ func main() {
 							time.Sleep(time.Second * 10)
 							breakout = true
 						case "cancelled":
+							disp.Clear()
 							disp.DrawText("==================", oled.TextRow1)
-							disp.DrawText(deploy.Name, oled.TextRow2)
+							disp.DrawText(strings.Replace(deploy.Name, "lagoon-", "", -1), oled.TextRow2)
 							disp.DrawText("==================", oled.TextRow3)
 							disp.DrawText("STATUS: Cancelled", oled.TextRow4)
 							disp.DrawText("==================", oled.TextRow6)
