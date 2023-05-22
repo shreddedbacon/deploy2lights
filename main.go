@@ -15,10 +15,10 @@ import (
 	"github.com/uselagoon/deploy2lights/internal/lights"
 	"github.com/uselagoon/deploy2lights/internal/oled"
 
-	"github.com/shreddedbacon/machinery/api/lagoon"
-	lclient "github.com/shreddedbacon/machinery/api/lagoon/client"
-	"github.com/shreddedbacon/machinery/api/schema"
-	"github.com/shreddedbacon/machinery/utils/lagoon/sshtoken"
+	"github.com/uselagoon/machinery/api/lagoon"
+	lclient "github.com/uselagoon/machinery/api/lagoon/client"
+	"github.com/uselagoon/machinery/api/schema"
+	"github.com/uselagoon/machinery/utils/sshtoken"
 
 	"github.com/mattes/go-asciibot"
 

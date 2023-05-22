@@ -5,8 +5,8 @@ go 1.17
 require (
 	github.com/mattes/go-asciibot v0.0.0-20190603170252-3fa6d766c482
 	github.com/rpi-ws281x/rpi-ws281x-go v1.0.8
-	github.com/shreddedbacon/machinery v0.0.0-20221012230656-127dd8cee019
 	github.com/stianeikeland/go-rpio v4.2.0+incompatible
+	github.com/uselagoon/machinery v0.0.8
 	golang.org/x/image v0.7.0
 	periph.io/x/conn/v3 v3.7.0
 	periph.io/x/devices/v3 v3.7.1
