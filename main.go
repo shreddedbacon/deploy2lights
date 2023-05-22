@@ -93,8 +93,8 @@ func main() {
 		log.Fatal(err)
 	}
 	defer spiPort.Close()
-	dc := gpioreg.ByName("GPIO25")  // pin 22
-	rst := gpioreg.ByName("GPIO24") // pin 18
+	dc := gpioreg.ByName("GPIO23")
+	rst := gpioreg.ByName("GPIO24")
 
 	disp := oled.NewDisplay(128, 64, spiPort, dc, rst)
 	disp.PrintLogo()
@@ -119,6 +119,9 @@ func main() {
 			token := ""
 			err = sshtoken.ValidateOrRefreshToken(sshKey, sshHost, sshPort, &token)
 			if err != nil {
+				disp.DrawText("==================", oled.TextRow1)
+				disp.DrawText(" FAILED TO AUTH ", oled.TextRow3)
+				disp.DrawText("==================", oled.TextRow6)
 				fmt.Println("generate token error:", err)
 				//red orange yellow
 				builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
@@ -145,6 +148,9 @@ func main() {
 			l := lclient.New(lagoonAPI, "deploy2lights", &token, false)
 			project, err := lagoon.GetMinimalProjectByName(ctx, projectName, l)
 			if err != nil {
+				disp.DrawText("==================", oled.TextRow1)
+				disp.DrawText("PROJECT GET FAILED", oled.TextRow3)
+				disp.DrawText("==================", oled.TextRow6)
 				fmt.Println("project get error:", err)
 				//red orange yellow
 				builds = &[]string{"FF0000", "EB8F34", "FFFF00"}
@@ -201,6 +207,15 @@ func main() {
 							disp.DrawText("==================", oled.TextRow6)
 							//purple, darker purple, lighter purple
 							builds = &[]string{"460ba3", "391f61", "925ee0"}
+							time.Sleep(time.Second * 5)
+						case "queued":
+							disp.DrawText("==================", oled.TextRow1)
+							disp.DrawText(deploy.Name, oled.TextRow2)
+							disp.DrawText("==================", oled.TextRow3)
+							disp.DrawText("STATUS: Queued", oled.TextRow4)
+							disp.DrawText("==================", oled.TextRow6)
+							//pink, darker pink, lighter pink
+							builds = &[]string{"9e0e6b", "6e2b56", "e36bb8"}
 							time.Sleep(time.Second * 5)
 						case "pending":
 							disp.DrawText("==================", oled.TextRow1)
