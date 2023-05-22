@@ -7,6 +7,10 @@ require (
 	github.com/rpi-ws281x/rpi-ws281x-go v1.0.8
 	github.com/shreddedbacon/machinery v0.0.0-20221012230656-127dd8cee019
 	github.com/stianeikeland/go-rpio v4.2.0+incompatible
+	golang.org/x/image v0.7.0
+	periph.io/x/conn/v3 v3.7.0
+	periph.io/x/devices/v3 v3.7.1
+	periph.io/x/host/v3 v3.8.2
 )
 
 require (
@@ -16,6 +20,6 @@ require (
 	github.com/machinebox/graphql v0.2.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	golang.org/x/crypto v0.0.0-20221005025214-4161e89ecf1b // indirect
-	golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1 // indirect
-	golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1 // indirect
+	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/term v0.5.0 // indirect
 )
