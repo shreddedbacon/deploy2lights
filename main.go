@@ -116,6 +116,10 @@ func main() {
 	for {
 		if pin.EdgeDetected() {
 			fmt.Println("button pressed")
+			disp.Clear()
+			disp.DrawText("==================", oled.TextRow1)
+			disp.DrawText(" Triggered Build ", oled.TextRow3)
+			disp.DrawText("==================", oled.TextRow6)
 			builds = &[]string{"0000FF", "06BA90", "48D99F"}
 			token := ""
 			err = sshtoken.ValidateOrRefreshToken(sshKey, sshHost, sshPort, &token)
