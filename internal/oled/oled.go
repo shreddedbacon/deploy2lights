@@ -22,7 +22,7 @@ var (
 	TextRow3  fixed.Point26_6 = fixed.P(2, 36)
 	TextRow4  fixed.Point26_6 = fixed.P(2, 48)
 	TextRow5  fixed.Point26_6 = fixed.P(2, 60)
-	TextLine  string          = "=================="
+	TextLine  string          = "------------------"
 	TextWidth int             = len(TextLine)
 )
 
