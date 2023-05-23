@@ -17,19 +17,13 @@ import (
 )
 
 var (
-	TextRow1 fixed.Point26_6 = fixed.P(2, 12)
-	TextRow2 fixed.Point26_6 = fixed.P(2, 24)
-	TextRow3 fixed.Point26_6 = fixed.P(2, 36)
-	TextRow4 fixed.Point26_6 = fixed.P(2, 48)
-	TextRow5 fixed.Point26_6 = fixed.P(2, 60)
-)
-
-type TextAlign string
-
-const (
-	AlignLeft   TextAlign = "left"
-	AlignCenter TextAlign = "center"
-	AlignRight  TextAlign = "right"
+	TextRow1  fixed.Point26_6 = fixed.P(2, 12)
+	TextRow2  fixed.Point26_6 = fixed.P(2, 24)
+	TextRow3  fixed.Point26_6 = fixed.P(2, 36)
+	TextRow4  fixed.Point26_6 = fixed.P(2, 48)
+	TextRow5  fixed.Point26_6 = fixed.P(2, 60)
+	TextLine  string          = "=================="
+	TextWidth int             = len(TextLine)
 )
 
 var logo = []byte{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x80, 0xc0, 0xc0, 0xe0, 0xf0, 0xf0, 0xf8, 0xf8,
@@ -107,15 +101,14 @@ type Display struct {
 func NewDisplay(w, h int, port spi.Port, dc, rst gpio.PinIO) *Display {
 	rst.In(gpio.PullUp, gpio.BothEdges) // need to pull rst pin high to control display
 	opts := ssd1306.Opts{W: w, H: h}    // + rotated etc
-	if p, ok := port.(spi.Pins); ok {
-		log.Printf("Using pins CLK: %s  MOSI: %s  CS: %s", p.CLK(), p.MOSI(), p.CS())
+	if _, ok := port.(spi.Pins); ok {
+		log.Printf("oled display enabled")
 	}
 
 	dev, err := ssd1306.NewSPI(port, dc, &opts)
 	if err != nil {
 		log.Fatalf("failed to initialize ssd1306: %v", err)
 	}
-	log.Printf("Display Bounds: %#+v", dev.Bounds())
 	img := image1bit.NewVerticalLSB(dev.Bounds())
 
 	face := basicfont.Face7x13
@@ -133,30 +126,37 @@ func NewDisplay(w, h int, port spi.Port, dc, rst gpio.PinIO) *Display {
 	}
 }
 
-func (d *Display) DrawText(txt string, dot fixed.Point26_6, align TextAlign) {
+func (d *Display) DrawText(txt string, dot fixed.Point26_6) {
 	d.Text.Dot = dot
-	switch align {
-	case "center":
-		d.Text.DrawString(centerString(txt, len("==================")))
-	case "left":
-		d.Text.DrawString(padLeft(txt, len("==================")))
-	case "right":
-		fallthrough
-	default:
-		d.Text.DrawString(txt)
-	}
+	d.Text.DrawString(txt)
 	if err := d.Dev.Draw(d.Dev.Bounds(), d.Img, image.Point{}); err != nil {
 		log.Println(err)
 	}
 }
 
-func centerString(str string, width int) string {
-	spaces := int(float64(width-len(str)) / 2)
-	return strings.Repeat(" ", spaces) + str + strings.Repeat(" ", width-(spaces+len(str)))
+func (d *Display) DrawLine(dot fixed.Point26_6) {
+	d.Text.Dot = dot
+	d.Text.DrawString(TextLine)
+	if err := d.Dev.Draw(d.Dev.Bounds(), d.Img, image.Point{}); err != nil {
+		log.Println(err)
+	}
 }
 
-func padLeft(str string, width int) string {
-	return fmt.Sprintf(`%*s`, width, str)
+func (d *Display) DrawTextCenter(txt string, dot fixed.Point26_6) {
+	d.Text.Dot = dot
+	spaces := int(float64(TextWidth-len(txt)) / 2)
+	d.Text.DrawString(strings.Repeat(" ", spaces) + txt + strings.Repeat(" ", TextWidth-(spaces+len(txt))))
+	if err := d.Dev.Draw(d.Dev.Bounds(), d.Img, image.Point{}); err != nil {
+		log.Println(err)
+	}
+}
+
+func (d *Display) DrawTextRight(txt string, dot fixed.Point26_6) {
+	d.Text.Dot = dot
+	d.Text.DrawString(fmt.Sprintf(`%*s`, TextWidth, txt))
+	if err := d.Dev.Draw(d.Dev.Bounds(), d.Img, image.Point{}); err != nil {
+		log.Println(err)
+	}
 }
 
 func (d *Display) PrintLogo() {
