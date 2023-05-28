@@ -71,6 +71,10 @@ func main() {
 	ls.Startup()
 
 	fmt.Println("opening gpio")
+	if _, err := host.Init(); err != nil {
+		log.Fatal(err)
+	}
+
 	// err = rpio.Open()
 	// if err != nil {
 	// 	log.Fatal(fmt.Sprint("unable to open gpio", err.Error()))
@@ -93,9 +97,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if _, err := host.Init(); err != nil {
-		log.Fatal(err)
-	}
 	spiPort, err := spireg.Open("") // spireg.Open(fmt.Sprintf("/dev/spidev0.%d", index))
 	if err != nil {
 		log.Fatal(err)
