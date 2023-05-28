@@ -75,20 +75,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// err = rpio.Open()
-	// if err != nil {
-	// 	log.Fatal(fmt.Sprint("unable to open gpio", err.Error()))
-	// }
-
-	// defer rpio.Close()
-
-	// pin := rpio.Pin(17)
-	// pin.Input()
-	// pin.PullUp()
-	// pin.Detect(rpio.FallEdge)
-
-	// defer pin.Detect(rpio.NoEdge)
-
 	pin := gpioreg.ByName("GPIO17")
 	if pin == nil {
 		log.Fatal("Failed to find GPIO17")
@@ -128,7 +114,6 @@ func main() {
 	ls.Wipe(lights.HexToColor("06BA90")) //teal
 
 	for pin.WaitForEdge(-1) {
-		// if pin.EdgeDetected() {
 		fmt.Println("button pressed")
 		disp.Clear()
 		disp.DrawLine(oled.TextRow1)
@@ -305,8 +290,6 @@ func main() {
 		ls.Wipe(lights.HexToColor("06BA90")) //teal
 		disp.Clear()
 		disp.PrintLogo()
-		// }
-		// time.Sleep(time.Second)
 	}
 }
 
