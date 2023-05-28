@@ -107,6 +107,8 @@ func main() {
 				for _, c := range *builds {
 					ls.Wipe(lights.HexToColor(c))
 				}
+			} else {
+				time.Sleep(100 * time.Millisecond)
 			}
 		}
 	}()
